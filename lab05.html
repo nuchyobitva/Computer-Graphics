@@ -51,13 +51,11 @@
                 y: event.offsetY 
             };
         }
-        
         var plot = function(x, y) { 
             if(isFinite(x) && isFinite(y)){
                 set_pixel(x,y, plot.color);
             }
         };
-     
         function set_pixel (x,y,c) { 
             var p = ctx.createImageData(1,1);
             p.data[0]=c.r;
@@ -68,7 +66,21 @@
             if(data[3] <= p.data[3]) 
                 ctx.putImageData(p,x,y);
         }
-     
+        function vector__product(pt1,pt2){
+            return pt1[0]*pt2[1]-pt2[0]*pt1[1];
+        }
+        function scalar(pt1,pt2){
+            return pt1[0]*pt2[0] + pt1[1]*pt2[1];
+        }
+        function delta(pt1,pt2){
+            return [pt2[0]-pt1[0],pt2[1]-pt1[1]];
+        }
+        function normal(pt1,pt2){
+            return [pt2[1]-pt1[1],pt1[0]-pt2[0]];
+        }
+        function p_s(pt1, pt2, t) {
+            return [pt1[0] + t*(pt2[0] - pt1[0]), pt1[1] + t*(pt2[1] - pt1[1])];
+        }
         function drawLine(x1, y1, x2, y2) {
         
             plot.color = {r:0,g:0,b:0,a:255}; 
@@ -83,46 +95,20 @@
             {
                 plot(x1, y1);
                 var error2 = error * 2;
-                if(error2 > -deltaY) 
-                {
+                if(error2 > -deltaY){
                     error -= deltaY;
                     x1 += signX;
                 }
-                if(error2 < deltaX) 
-                {
+                if(error2 < deltaX){
                     error += deltaX;
                     y1 += signY;
                 }
             }
         }
         
-        function vector__product(pt1,pt2)
-        {
-            return pt1[0]*pt2[1]-pt2[0]*pt1[1];
-        }
-
-        function scalar(pt1,pt2)
-        {
-            return pt1[0]*pt2[0] + pt1[1]*pt2[1];
-        }
-
-        function delta(pt1,pt2)
-        {
-            return [pt2[0]-pt1[0],pt2[1]-pt1[1]];
-        }
-
-        function normal(pt1,pt2)
-        {
-            return [pt2[1]-pt1[1],pt1[0]-pt2[0]];
-        }
-
-        function p_s(pt1, pt2, t)
-        {
-            return [pt1[0] + t*(pt2[0] - pt1[0]), pt1[1] + t*(pt2[1] - pt1[1])];
-        }
         
-        function cyrus_beck()
-            {
+        
+        function cyrus_beck(){
                 ctx.clearRect(0,0,1000,1000);
                 var orient = orientation();
                 var tmpBuffer = [];

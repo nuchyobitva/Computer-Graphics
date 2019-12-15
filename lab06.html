@@ -1,16 +1,41 @@
 <HTML>
+	<style>
+    	.buttons{
+        	margin-left:610px;
+        }
+        .canvas{
+        	margin-top:-200px;
+        }
+        #posrtoenie{
+        	height:100px;
+            width:100px;
+            border-radius:50%;
+            background-color:black;
+            color:white;
+            outline:none;
+			border-color: transparent;
+        }
+        #zalit{
+        	height:100px;
+            width:100px;
+            border-radius:50%;
+            background-color:black;
+            color:white;
+            outline:none;
+			border-color: transparent;
+        }
+    </style>
     <BODY>
-        
+         <div class = "buttons"> 
+            <button type="button" id="posrtoenie" onclick="pointsFunction()"><b>Построение</b></button> 			<br>
+            <button type="button" id="zalit" onclick="drawFunction()"><b>Залить</b></button>  		
+        </div>
         <div class= "canvas">
             <canvas id='lab06' height='600' width='600' style="border:1px solid">
         </div>
-        <div class = "buttons"> 
-            <button type="button" id="secondButton" onclick="pointsFunction()">Многоугольник</button> 
-            <button type="button" id="secondButton" onclick="drawFunction()">Заливка</button>  		
-        </div>
+       
         <div>
-            <p>Многоугольник - режим установки точек многоугольника</p>
-            <p>Заливка - заполнить многоугольник</p>	
+            <p>После нажатия кнопки "Построение" вы перейдёте в режим установления точек, по которым он будет построен<br>По готовности нажмите кнопку "Залить", после чего произойдёт заливка многоугольника </p>	
         </div>
     <script>
         var canvas = document.getElementById('lab06');

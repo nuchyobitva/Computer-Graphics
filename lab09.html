@@ -10,7 +10,7 @@
     var n2 = [2, 0, 4];
 	window.onload = function() {
     figure = [{'x': 220, 'y': 60 ,'z': 50 }, 	//top point
-    		  {'x': 440, 'y': 330,'z': 0  },	//right
+    	      {'x': 440, 'y': 330,'z': 0  },	//right
               {'x': 300, 'y': 400,'z': 0  }, 	//middle
               {'x': 50 , 'y': 400,'z': 0  },    //left
         ];
@@ -61,7 +61,7 @@ function drawFigure() {
             }
             else {tmpBuffer = crds; drawLine(tmpBuffer[j], tmpBuffer[j+1]);}
         }
-        fillFigure();
+        fill();
         crds = [];
     }
     function drawLine(p1, p2) {
@@ -72,10 +72,9 @@ function drawFigure() {
         red.stroke();
     }
     
-    function fillFigure() {
-        crds = rastFigure();
-        for(var i = 0; i < crds.length - 2; i++)
-        {
+    function fill() {
+        crds = rst();
+        for(var i = 0; i < crds.length - 2; i++) {
             if(crds[i][1] == crds[i+2][1] && crds[i][1] != crds[i+3][1]){
                 drawLine(crds[i],crds[i+2]);
                 i+=2;
@@ -86,48 +85,44 @@ function drawFigure() {
             }
         }
     }
-        function oneLine(p1, p2)
-        {
+        function oneLine(p1, p2){
             if(p1[1] == p2[1]){return true;}  
             return false;
         }
-        function rastFigure()
+        function rst()
         {
-            var poly = [];
-            for(var i = 0; i < crds.length - 1; i++)
-            {
+            var emp = [];
+            for(var i = 0; i < crds.length - 1; i++) {
                 if(!oneLine(crds[i],crds[i+1])){
-                    poly = poly.concat(restLine(crds[i],crds[i+1]));
+                    emp = emp.concat(othrln(crds[i],crds[i+1]));
                 }
-                else {poly.push(crds[i]);}
+                else {emp.push(crds[i]);}
             }
-            if(!oneLine(crds[crds.length - 1], crds[0]))
-            {
-                poly = poly.concat(restLine(crds[crds.length - 1], crds[0]));
+            if(!oneLine(crds[crds.length - 1], crds[0])) {
+                emp = emp.concat(othrln(crds[crds.length - 1], crds[0]));
             }
-            return poly.sort(srt);
+            return emp.sort(srt);
         }
-        function restLine(p1, p2)
-        {
+        function othrln(p1, p2)  {
             var y = p1[1],
             dx = (p2[0] - p1[0])/(p2[1] - p1[1]),
             x = p1[0],
-            poly = [];
+            emp = [];
             if(p1[1] < p2[1]){
                 while(y <= p2[1]){
-                    poly.push([x,y]);
+                    emp.push([x,y]);
                     y++;
                     x += dx;
                 }
             }
             else{
                 while(y >= p2[1]){
-                    poly.push([x,y]);
+                    emp.push([x,y]);
                     y--;
                     x -= dx;
                 }
             }
-            return poly;
+            return emp;
         }
         function srt(p1,p2)	{
             if(p1[1] > p2[1]) return 1;

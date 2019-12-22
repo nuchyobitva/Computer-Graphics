@@ -1,11 +1,11 @@
 <html>
 <head/>
 <body>
-<canvas id='lab07' width='500' height='500' style="border:1px solid"> </canvas>
+<canvas id='lab09' width='500' height='500' style="border:1px solid"> </canvas>
 <script>
-	var canvas=document.getElementById('lab07');
-	var ctx = canvas.getContext('2d');
-    var buffer = [[150,100],[400,300],[300,400]];
+	var canvas=document.getElementById('lab09');
+	var red = canvas.getContext('2d');
+    var bf = [[150,100],[400,300],[300,400]];
     var n1 = [0, -1, -2];
     var n2 = [2, 0, 4];
 	window.onload = function() {
@@ -27,117 +27,114 @@
             'z': 0
         }, 
         ];
-    light_source = [400, 500, 100];
-    var tmp = [400-200, 500-300, 100 - 0];
-    var cos1 = cos_angle(n1,tmp);
-    var color = [cos1*021, cos1*168, cos1*124];
-    ctx.strokeStyle = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+    svet = [400, 500, 100];
+    var tmp = [600-200, 500-300, 100 - 0];
+    var cosin_1 = cosin(n1,tmp);
+    var color = [cosin_1*021, cosin_1*168, cosin_1*124];
+    red.strokeStyle = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
     drawFigure();
     drawFig();
     var tmp2 = [400-400, 500-100, 100 - 0];
-    var cos2 = cos_angle(n2,tmp2);
-    var color2 = [cos2*021, cos2*168, cos2*124];
-    ctx.strokeStyle = 'rgb('+color2[0]+','+color2[1]+','+color2[2]+')';
-    buffer = [[150,100],[100,400],[300,400]];
+    var cosin_2 = cosin(n2,tmp2);
+    var color2 = [cosin_2*021, cosin_2*168, cosin_2*124];
+    red.strokeStyle = 'rgb('+color2[0]+','+color2[1]+','+color2[2]+')';
+    bf = [[150,100],[100,400],[300,400]];
     drawFig();
 }
-function cos_angle(vec1, vec2) {
-var mdla = Math.sqrt(vec1[0]*vec1[0] + vec1[1]*vec1[1] + vec1[2]*vec1[2]); 
-var mdlb = Math.sqrt(vec2[0]*vec2[0] + vec2[1]*vec2[1] + vec2[2]*vec2[2]);
-var mdlab = mdla*mdlb;
-var ccos = Math.abs((vec1[0]*vec2[0] + vec1[1]*vec2[1] + vec1[2]*vec2[2]) / mdlab);
+function cosin(vec1, vec2) {
+var tochka1 = Math.sqrt(vec1[0]*vec1[0] + vec1[1]*vec1[1] + vec1[2]*vec1[2]); 
+var tochka2 = Math.sqrt(vec2[0]*vec2[0] + vec2[1]*vec2[1] + vec2[2]*vec2[2]);
+var tchk = tochka1 *tochka2;
+var ccos = Math.abs((vec1[0]*vec2[0] + vec1[1]*vec2[1] + vec1[2]*vec2[2]) / tchk);
 console.log(ccos);
 return ccos;
 }
 function drawFigure() {
-    ctx.fillStyle = '#00a860';
-    ctx.beginPath();
-    ctx.moveTo(figure[0].x,figure[0].y);
+    red.fillStyle = '#ffffff';
+    red.beginPath();
+    red.moveTo(figure[0].x,figure[0].y);
     for(var d in figure){
-        ctx.lineTo(figure[d].x,figure[d].y);
+        red.lineTo(figure[d].x,figure[d].y);
     }
-    ctx.closePath();
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(figure[0].x,figure[0].y);
-    ctx.lineTo(figure[2].x,figure[2].y);
-    ctx.closePath();
-    ctx.stroke();
+    red.closePath();
+    red.stroke();
+    red.beginPath();
+    red.moveTo(figure[0].x,figure[0].y);
+    red.lineTo(figure[2].x,figure[2].y);
+    red.closePath();
+    red.stroke();
 }
    function drawFig(){
         var tmpBuffer = [];
-        tmpBuffer = buffer;
+        tmpBuffer = bf;
         for(var j = 0; j < tmpBuffer.length; j++) {
             if(j == tmpBuffer.length - 1){
-                tmpBuffer = buffer;
+                tmpBuffer = bf;
                 drawLine(tmpBuffer[j], tmpBuffer[0]);
             }
-            else {tmpBuffer = buffer; drawLine(tmpBuffer[j], tmpBuffer[j+1]);}
+            else {tmpBuffer = bf; drawLine(tmpBuffer[j], tmpBuffer[j+1]);}
         }
         fillFigure();
-        buffer = [];
+        bf = [];
     }
-    function drawLine(point1, point2)
-    {
-        ctx.beginPath()
-        ctx.lineWidth = 1;
-       
-        ctx.moveTo(point1[0], point1[1]);
-        ctx.lineTo(point2[0], point2[1]);
-        ctx.stroke();
+    function drawLine(p1, p2) {
+        red.beginPath()
+        red.lineWidth = 1;
+        red.moveTo(p1[0], p1[1]);
+        red.lineTo(p2[0], p2[1]);
+        red.stroke();
     }
     
-    function fillFigure()
-    {
-        buffer = rastFigure();
-        for(var i = 0; i < buffer.length - 2; i++)
+    function fillFigure() {
+        bf = rastFigure();
+        for(var i = 0; i < bf.length - 2; i++)
         {
-            if(buffer[i][1] == buffer[i+2][1] && buffer[i][1] != buffer[i+3][1]){
-                drawLine(buffer[i],buffer[i+2]);
+            if(bf[i][1] == bf[i+2][1] && bf[i][1] != bf[i+3][1]){
+                drawLine(bf[i],bf[i+2]);
                 i+=2;
             }
-            else if(buffer[i][1] == buffer[i+1][1]){
-                drawLine(buffer[i],buffer[i+1]);
+            else if(bf[i][1] == bf[i+1][1]){
+                drawLine(bf[i],bf[i+1]);
                 i++;
             }
         }
     }
-        function oneLine(point1, point2)
+        function oneLine(p1, p2)
         {
-            if(point1[1] == point2[1]){return true;}  
+            if(p1[1] == p2[1]){return true;}  
             return false;
         }
         function rastFigure()
         {
             var poly = [];
-            for(var i = 0; i < buffer.length - 1; i++)
+            for(var i = 0; i < bf.length - 1; i++)
             {
-                if(!oneLine(buffer[i],buffer[i+1])){
-                    poly = poly.concat(restLine(buffer[i],buffer[i+1]));
+                if(!oneLine(bf[i],bf[i+1])){
+                    poly = poly.concat(restLine(bf[i],bf[i+1]));
                 }
-                else {poly.push(buffer[i]);}
+                else {poly.push(bf[i]);}
             }
-            if(!oneLine(buffer[buffer.length - 1], buffer[0]))
+            if(!oneLine(bf[bf.length - 1], bf[0]))
             {
-                poly = poly.concat(restLine(buffer[buffer.length - 1], buffer[0]));
+                poly = poly.concat(restLine(bf[bf.length - 1], bf[0]));
             }
             return poly.sort(sortFunc);
         }
-        function restLine(point1, point2)
+        function restLine(p1, p2)
         {
-            var y = point1[1],
-            dx = (point2[0] - point1[0])/(point2[1] - point1[1]),
-            x = point1[0],
+            var y = p1[1],
+            dx = (p2[0] - p1[0])/(p2[1] - p1[1]),
+            x = p1[0],
             poly = [];
-            if(point1[1] < point2[1]){
-                while(y <= point2[1]){
+            if(p1[1] < p2[1]){
+                while(y <= p2[1]){
                     poly.push([x,y]);
                     y++;
                     x += dx;
                 }
             }
             else{
-                while(y >= point2[1]){
+                while(y >= p2[1]){
                     poly.push([x,y]);
                     y--;
                     x -= dx;
@@ -145,13 +142,13 @@ function drawFigure() {
             }
             return poly;
         }
-        function sortFunc(point1,point2)	{
-            if(point1[1] > point2[1]) return 1;
-            if(point1[1] < point2[1]) return -1;
-            if(point1[1] == point2[1]) {
-                if(point1[0] > point2[0]) return 1;
-                if(point1[0] < point2[0]) return -1;
-                if(point1[0] == point2[0]) return 0;
+        function sortFunc(p1,p2)	{
+            if(p1[1] > p2[1]) return 1;
+            if(p1[1] < p2[1]) return -1;
+            if(p1[1] == p2[1]) {
+                if(p1[0] > p2[0]) return 1;
+                if(p1[0] < p2[0]) return -1;
+                if(p1[0] == p2[0]) return 0;
             }
         }
 </script>

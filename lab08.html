@@ -1,1 +1,70 @@
+<html>
+<style>
+  #btn{
+    width:100px;
+    height:40px;
+    color:white;
+    background-color:purple;
+    border-radius:35%;
+    border:none;
+    outline:none;
+  }
+</style>
+<body>
+<canvas id='lab08' width='500' height='500' style="border:1px solid"> </canvas>
+<p>Введите количество градусов, на которое нужно осуществить поворот и нажмите кнопку "Повернуть"</p>
+<input type="Angle" id="angle"/>
+<button  id="btn" onclick="rotate(document.getElementById('angle').value)"><b>Повернуть</b></button>
+<script>
+	var canvas=document.getElementById('lab08');
+	var ctx = canvas.getContext('2d');
+	window.onload = function() {
+    sqr = [{ 'x': -10, 'y': 80 },
+    		  { 'x': 50 , 'y': 160},
+              { 'x': 90 , 'y': 82 },
+              { 'x': 50 , 'y': 30 },];
+    point = { 'x': 50,   'y': 160 }
+    drawFigure();
+    move(200,100);
+}
 
+function rotate(angle) {
+    angle = angle * 3.14/180; 
+    clear();
+    for(var d in sqr){
+        temp = sqr[d].x-point.x;
+        sqr[d].x = parseInt( (sqr[d].x-point.x) * Math.cos(angle) - (sqr[d].y - point.y)*Math.sin(angle)) + point.x;
+        sqr[d].y = parseInt( temp * Math.sin(angle) + (sqr[d].y - point.y)*Math.cos(angle) ) + point.y;
+        console.log(sqr[d].x, sqr[d].y);
+    }
+    drawFigure();
+} 
+function move(x, y) {
+    clear();
+    for(var d in sqr){
+        sqr[d].x += x;
+        sqr[d].y += y;
+    }
+    point.x += x;
+    point.y += y;
+    drawFigure();
+}
+
+
+function clear(){
+	ctx.clearRect( 0 , 0 , 1000 , 1000 );
+}
+
+function drawFigure() {
+    ctx.fillStyle = '#abcdef';
+    ctx.beginPath();
+    ctx.moveTo(sqr[0].x,sqr[0].y);
+    for(var d in sqr){
+        ctx.lineTo(sqr[d].x,sqr[d].y);
+    }
+    ctx.closePath();
+    ctx.fill();
+}
+</script>
+</body>
+</html>
